@@ -1,22 +1,43 @@
-import React from 'react';
-import './App.css';
-import "bootstrap-css-only/css/bootstrap.min.css";
-import Employees from "./components/employees/Employees";
-import "mdbreact/dist/css/mdb.css";
-import Header from "./components/header/Header";
+import React, { Component } from "react";
+import FriendCard from "./components/FriendCard";
+import Wrapper from "./components/Wrapper";
+import Title from "./components/Title";
+import friends from "./friends.json";
 
 
+class App extends Component {
+  
+  state = {
+    friends
+  };
 
-function App() {
+  removeFriend = id => {
+    
+    const friends = this.state.friends.filter(friend => friend.id !== id);
+  
+    this.setState({ friends });
+  };
 
-    return (
-        <div className="App">
-          <Header /><br></br>
-          <Employees />
-          
-        </div>
-      );
  
+  render() {
+    return (
+      <Wrapper>
+        
+        <Title> Cartoon Employee Directory</Title>
+        {this.state.friends.map(friend => (
+          <FriendCard
+            removeFriend={this.removeFriend}
+            id={friend.id}
+            key={friend.id}
+            name={friend.name}
+            image={friend.image}
+            occupation={friend.occupation}
+            location={friend.location}
+          />
+        ))}
+      </Wrapper>
+    );
+  }
 }
 
 export default App;
